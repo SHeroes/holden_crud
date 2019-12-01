@@ -13,43 +13,43 @@
 	  ?>
 	</div>
 	<div class="container">
-		<h2>Bienvenidos a la aplicación Elija la compañía</h2>
-		<h6>Por motivos prácticos no se coloco un Login, pero es lo que correpsondería para separar el uso para cada Compañia diferente</h6>
+		<h2>Agregar Compañia nueva</h2>
 		<?php
-			error_reporting(0);
-			$mensaje = $_GET["mensaje"];
-			if ($mensaje == 1) {
-				echo "<p class='btn  btn-danger'><i class='icon-trash icon-white'></i> El employee fue eliminado con éxito.</p><br><br>";
-			}
-			if ($mensaje == 2) {
-				echo "<p class='btn  btn-success'><i class='icon-ok icon-white'></i> El employee fue guardado con éxito.</p><br><br>";
-			}
-			if ($mensaje == 3) {
-				echo "<p class='btn  btn-warning'><i class='icon-refresh icon-white'></i> El employee fue modificado con éxito.</p><br><br>";
-			}
 		?>
 		<form class="form-horizontal" action="index.php" method="get">
+			<!--
+		  	<div class="control-group">
+		    	<label class="control-label" for="inputNameemployee">Nombre del Empleado</label>
+		    	<div class="controls">
+		      		<input type="text" name="nameemployee" id="inputNameemployee" class="input-xlarge" placeholder="Nombre del employee"/>
+		    	</div>
+		  	</div>
+		  -->
 			<div class="control-group">
 		    	<label class="control-label" for="inputcompany">Nombre de la Compañía</label>
 		    	<div class="controls">
 		      		<select name="company">
 		      			<?php
+							//require_once("connect_companyes.php");
 							$c_companyes = $db->getCollection('companies')->distinct('name');
+							//print_r($c_companyes); 
 							foreach ($c_companyes as $key => $company) {
 								echo '<option value="'.$company.'">'.$company.'</option>';
 							}
+
 						?>
+		      			
 		      		</select>
 		    	</div>
 		  	</div>
 		  	<div class="control-group">
 		    	<div class="controls">
-		      		<button type="submit" class="btn btn-large btn-primary"><i class="icon-user icon-white"></i> Ver Empleados</button>
+		      		<button type="submit" class="btn btn-large btn-primary"><i class="icon-book icon-white"></i> Seleccionar Compañia</button>
 		    	</div>
 		  	</div>
 		</form>
 
-		<h3>Lista de Empleados</h3>
+		<h3>Lista de employee almacenados</h3>
 		<table class="table table-striped table-bordered">
 			<thead>
 			    <tr class="tr-head">
@@ -103,7 +103,7 @@
 					}else{
 				?>
 				<tr>
-					<td colspan="4"><h4><i class="icon-info-sign"></i>Elija una compañía</h4></td>
+					<td colspan="4"><h4><i class="icon-info-sign"></i> Sin registros en la Base de Datos</h4></td>
 				</tr>
 				<?php } ?>
 			</tbody>
@@ -113,7 +113,6 @@
 		  <p></p>
 		</footer>
 	</div> <!-- /container -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

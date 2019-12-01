@@ -1,6 +1,6 @@
 
 <meta charset="utf-8">
-<title>APP CRUD MongoDB + PHP + Bootstrap</title>
+<title>Gestor Empleados</title>
 <meta name="description" content="Holden Companies Administrator Beta">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--[if lt IE 9]>
