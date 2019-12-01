@@ -3,6 +3,7 @@
   <head>
     <?php 
     	require_once("head.php");
+    	require_once("model/db.php");
     ?>
   </head>
   <body>
@@ -13,7 +14,7 @@
 	</div>
 	<div class="container">
 		<h2>Bienvenidos a la aplicación realizada con MongoDB y PHP</h2>
-		<p class="text-info">En esta app podremos listar, agregar, modificar y eliminar Empleados.</p><br><br>
+		<!-- <p class="text-info">En esta app podremos listar, agregar, modificar y eliminar Empleados.</p><br><br> -->
 		<?php
 			error_reporting(0);
 			$mensaje = $_GET["mensaje"];
@@ -27,45 +28,35 @@
 				echo "<p class='btn  btn-warning'><i class='icon-refresh icon-white'></i> El employee fue modificado con éxito.</p><br><br>";
 			}
 		?>
-		<form class="form-horizontal" action="add_employee.php" method="post">
+		<form class="form-horizontal" action="index.php" method="get">
+			<!--
 		  	<div class="control-group">
 		    	<label class="control-label" for="inputNameemployee">Nombre del Empleado</label>
 		    	<div class="controls">
 		      		<input type="text" name="nameemployee" id="inputNameemployee" class="input-xlarge" placeholder="Nombre del employee"/>
 		    	</div>
 		  	</div>
+		  -->
 			<div class="control-group">
-		    	<label class="control-label" for="inputcompany">Nombre del company</label>
+		    	<label class="control-label" for="inputcompany">Nombre de la Compañía</label>
 		    	<div class="controls">
 		      		<select name="company">
 		      			<?php
-							require_once("connect_companyes.php");
+							//require_once("connect_companyes.php");
+							$c_companyes = $db->getCollection('companies')->distinct('name');
+							//print_r($c_companyes); 
+							foreach ($c_companyes as $key => $company) {
+								echo '<option value="'.$company.'">'.$company.'</option>';
+							}
 
-							if ($c_companyes->count()>0)
-							{
-								$companyes = $c_companyes->find();
-								foreach ($companyes as $company) {
 						?>
-						<option value="<?php echo $company['nombre'] ?>"><?php echo $company['nombre'] ?></option>
-						<?php 
-								}
-							}else{
-						?>
-						<option value="Sin company">Sin company</option>
-						<?php } ?>
 		      			
 		      		</select>
 		    	</div>
 		  	</div>
 		  	<div class="control-group">
-		    	<label class="control-label" for="inputcompany">Breve descripción del employee</label>
 		    	<div class="controls">
-		      		<textarea name="descripcion" rows="6" class="input-xlarge"></textarea>
-		    	</div>
-		  	</div>
-		  	<div class="control-group">
-		    	<div class="controls">
-		      		<button type="submit" class="btn btn-large btn-primary"><i class="icon-book icon-white"></i> Guardar employee</button>
+		      		<button type="submit" class="btn btn-large btn-primary"><i class="icon-book icon-white"></i> Seleccionar Compañia</button>
 		    	</div>
 		  	</div>
 		</form>
@@ -75,31 +66,54 @@
 			<thead>
 			    <tr class="tr-head">
 			    	<th>Nombre del employee</th>
-			    	<th>company</th>
-			    	<th>Descripción</th>
-			    	<th>Modificar</th>
-			    	<th>Eliminar</th>
+			    	<th>Apellido</th>
+			    	<th>Email</th>
+			    	<th>Cargo</th>
+			    	<th>Centro Trabajo</th>
+			    	<th>Salario</th>
+			    	<th>Horas</th>
+			    	<th>Acciones</th>
 			    </tr>
 			</thead>
 			<tbody>
 				<?php
-					require_once("connect_employees.php");
+					//require_once("connect_employees.php");
 
-					if ($c_employees->count()>0)
+
+					if ( isset($_GET["company"]))
 					{
-						$employees = $c_employees->find();
-						foreach ($employees as $employee) {
+						$c_company = $db->getCollection('companies')->find( [ 'name' => $_GET["company"]]);
 						
-				?>
-				<tr>
-					<td><?php echo $employee["nombre"]; ?></td>
-					<td><?php echo $employee["company"]; ?></td>
-					<td><?php echo $employee["descripcion"]; ?></td>
-					<td><a href="mod_employee.php?id=<?php echo $employee['_id'] ?>" class="btn btn-warning"><i class="icon-pencil icon-white"></i> Modificar</a></td>
-					<td><a href="eliminar_employee.php?id=<?php echo $employee['_id'] ?>" class="btn btn-danger"><i class="icon-remove icon-white"></i> Eliminar</a></td>
-				</tr>
-				<?php
+						foreach ($c_company as $entry) {
+							/*
+							echo $entry['_id'].'<br>';
+							$employee = $entry['employees'];
+							print_r($entry['employees']);
+							*/
+						?>
+						<tr>
+							<?php	/*									
+							            [name] => Pedro
+							            [lastName] => Gutierrez
+							            [email] => pgut@gmail.com
+							            [position] => technical
+							            [workingPlace] => Barcelona Office
+							            [perfilImageUrl] => 
+							            [salary] => 20000
+							            [weeklyWorking] => 40			*/
+							        ?>
+							<td><img src="<?php echo $employee['perfilImageUrl']; ?>" /><?php echo $employee["name"]; ?></td>
+							<td><?php echo $employee["lastName"]; ?></td>
+							<td><?php echo $employee["email"]; ?></td>
+							<td><?php echo $employee["position"]; ?></td>
+							<td><?php echo $employee["workingPlace"]; ?></td>
+							<td><?php echo $employee["salary"]; ?></td>
+							<td><?php echo $employee["salary"]; ?></td>
+							<td><a href="mod_employee.php?id=<?php echo $employee['_id'] ?>" class="btn btn-warning"><i class="icon-pencil icon-white"></i> Modificar</a><a href="eliminar_employee.php?id=<?php echo $employee['_id'] ?>" class="btn btn-danger"><i class="icon-remove icon-white"></i> Eliminar</a></td>
+						</tr>
+						<?php
 						}
+							die();
 					}else{
 				?>
 				<tr>
@@ -110,7 +124,7 @@
 		</table>
 
 		<footer>
-		  <p>Desarrollado por @JuanGarciaR</p>
+		  <p></p>
 		</footer>
 	</div> <!-- /container -->
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->

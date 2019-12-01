@@ -9,3 +9,6 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="view/css/style.css" rel="stylesheet"/>
 <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"/>
+
+
+<?php require_once('aux_functions.php')?>
