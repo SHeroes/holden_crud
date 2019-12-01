@@ -1,0 +1,28 @@
+Why not use Docker
+
+https://forums.docker.com/t/installing-docker-on-windows-10-home/11722
+
+
+
+
+
+
+***********************************************************************
+			PARA LA GUIA DE INSTALACION
+***********************************************************************
+
+Install mongoDb driver PHP en mi caso con 7.2
+agregar el archivo de extension para mongo db en la carpeta de php correspondiente php/7.x/ext/
+y agregar la linea
+extension=php_mongodb
+en el php.ini
+
+(https://pecl.php.net/package/mongodb listado de driver para php de mongo)
+https://www.php.net/manual/en/set.mongodb.php
+
+
+/////////////// solo para un proyecto nuevo
+
+descargar e instalar el composer y ejecutar en la carpeta del proyecto los archivos 
+"composer require mongodb/mongodb"
+
